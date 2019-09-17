@@ -47,6 +47,12 @@ export default {
       of: [{ type: "reference", to: { type: "category" } }]
     },
     {
+      name: "isUnpublished",
+      title: "Unpublished",
+      type: "boolean",
+      hidden: true
+    },
+    {
       name: "body",
       title: "Body",
       type: "blockContent"

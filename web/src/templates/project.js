@@ -5,6 +5,7 @@ import GraphQLErrorList from '../components/graphql-error-list'
 import Project from '../components/project'
 import SEO from '../components/seo'
 import Layout from '../containers/layout'
+import { sendMessage } from '../lib/helpers'
 
 export const query = graphql`
   query ProjectTemplateQuery($id: String!) {
@@ -84,9 +85,15 @@ export const query = graphql`
 const ProjectTemplate = props => {
   const { data, errors } = props
   const project = data && data.project
+
+  sendMessage({
+    origin: 'website',
+    currentPath: props.location.href
+  })
+
   return (
     <Layout>
-      {errors && <SEO title='GraphQL Error' />}
+      {errors && <SEO title="GraphQL Error" />}
       {project && <SEO title={project.title || 'Untitled'} />}
 
       {errors && (

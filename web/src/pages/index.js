@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { mapEdgesToNodes, filterOutDocsWithoutSlugs } from '../lib/helpers'
+import { mapEdgesToNodes, filterOutDocsWithoutSlugs, sendMessage } from '../lib/helpers'
 import BlogPostPreviewGrid from '../components/blog-post-preview-grid'
 import Container from '../components/container'
 import GraphQLErrorList from '../components/graphql-error-list'
@@ -103,6 +103,11 @@ const IndexPage = props => {
       </Layout>
     )
   }
+
+  sendMessage({
+    origin: 'website',
+    currentPath: props.location.href
+  })
 
   const site = (data || {}).site
   const postNodes = (data || {}).posts

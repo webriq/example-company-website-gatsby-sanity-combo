@@ -5,6 +5,7 @@ import GraphQLErrorList from '../components/graphql-error-list'
 import BlogPost from '../components/blog-post'
 import SEO from '../components/seo'
 import Layout from '../containers/layout'
+import { sendMessage } from '../lib/helpers'
 
 export const query = graphql`
   query BlogPostTemplateQuery($id: String!) {
@@ -77,9 +78,15 @@ export const query = graphql`
 const BlogPostTemplate = props => {
   const { data, errors } = props
   const post = data && data.post
+
+  sendMessage({
+    origin: 'website',
+    currentPath: props.location.href
+  })
+
   return (
     <Layout>
-      {errors && <SEO title='GraphQL Error' />}
+      {errors && <SEO title="GraphQL Error" />}
       {post && <SEO title={post.title || 'Untitled'} />}
 
       {errors && (

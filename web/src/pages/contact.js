@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import BlockContent from '../components/block-content'
 import Container from '../components/container'
 import GraphQLErrorList from '../components/graphql-error-list'
+import { sendMessage } from '../lib/helpers'
 import SEO from '../components/seo'
 import Layout from '../containers/layout'
 
@@ -27,6 +28,11 @@ const ContactPage = props => {
       </Layout>
     )
   }
+
+  sendMessage({
+    origin: 'website',
+    currentPath: props.location.href
+  })
 
   const page = data.page
 

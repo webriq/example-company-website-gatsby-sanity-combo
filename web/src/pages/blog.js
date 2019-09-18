@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { mapEdgesToNodes } from '../lib/helpers'
+import { mapEdgesToNodes, sendMessage } from '../lib/helpers'
 import BlogPostPreviewGrid from '../components/blog-post-preview-grid'
 import Container from '../components/container'
 import GraphQLErrorList from '../components/graphql-error-list'
@@ -47,6 +47,11 @@ const BlogPage = props => {
       </Layout>
     )
   }
+
+  sendMessage({
+    origin: 'website',
+    currentPath: props.location.href
+  })
 
   const postNodes = data && data.posts && mapEdgesToNodes(data.posts)
 

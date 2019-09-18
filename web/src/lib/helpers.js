@@ -1,23 +1,23 @@
 import { format } from 'date-fns'
 
-export function cn (...args) {
+export function cn(...args) {
   return args.filter(Boolean).join(' ')
 }
 
-export function mapEdgesToNodes (data) {
+export function mapEdgesToNodes(data) {
   if (!data.edges) return []
   return data.edges.map(edge => edge.node)
 }
 
-export function filterOutDocsWithoutSlugs ({ slug }) {
+export function filterOutDocsWithoutSlugs({ slug }) {
   return (slug || {}).current
 }
 
-export function getBlogUrl (publishedAt, slug) {
+export function getBlogUrl(publishedAt, slug) {
   return `/blog/${format(publishedAt, 'YYYY/MM')}/${slug.current || slug}/`
 }
 
-export function buildImageObj (source) {
+export function buildImageObj(source) {
   const imageObj = {
     asset: { _ref: source.asset._ref || source.asset._id }
   }
@@ -26,4 +26,10 @@ export function buildImageObj (source) {
   if (source.hotspot) imageObj.hotspot = source.hotspot
 
   return imageObj
+}
+
+// Sends message to parent window if using iframe
+export function sendMessage(msg) {
+  // Make sure you are sending a string, and to stringify JSON
+  window.parent.postMessage(JSON.stringify(msg), '*')
 }

@@ -159,7 +159,7 @@ export default () => {
       });
 
       window.currentStudioLocation = location;
-      const loc = location.pathname.split("/")[1].replace("intent", last) || "ranch";
+      const loc = location.pathname.split("/")[1].replace("intent", last) || "webriqsandbox";
       last = loc !== "intent" && loc;
       console.log("PATH", loc);
       return locations[loc];

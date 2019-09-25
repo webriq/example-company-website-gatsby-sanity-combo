@@ -4,7 +4,7 @@ import { FaFile } from "react-icons/fa";
 import client from "part:@sanity/base/client";
 import locationStore from "part:@sanity/base/location";
 import { map } from "rxjs/operators";
-import { FiInbox, FiDatabase, FiLayers, FiCheck } from "react-icons/fi";
+import { FiEdit, FiInbox, FiDatabase, FiLayers, FiCheck } from "react-icons/fi";
 
 const hiddenTypes = [
   "category",
@@ -48,41 +48,47 @@ const webriqsandbox = S.list()
           .title("Status")
           .items([
             S.listItem()
-              .title("Published")
+              .title("Published (Including New Edits)")
               .icon(FiLayers)
               .schemaType("post")
               .child(
                 S.documentTypeList("post")
-                  .title("Published")
-                  .filter("_type == $type && !(_id in path('drafts.**'))")
+                  .title("Published (Including Edits)")
+                  .filter(
+                    "_type == $type && !(_id in path('drafts.**')) && defined(hasBeenPublished) && hasBeenPublished"
+                  )
                   .params({
                     type: "post"
                   })
               ),
             S.listItem()
-              .title("Drafts")
-              .icon(FiInbox)
+              .title("Drafts (Never Published)")
+              .icon(FiEdit)
               .schemaType("post")
               .child(
                 S.documentTypeList("post")
-                  .title("Drafts")
-                  .filter("_type == $type && _id in path('drafts.**') && !defined(publishedAt)")
+                  .title("Drafts (Never Published)")
+                  .filter(
+                    "_type == $type && _id in path('drafts.**') && !defined(hasBeenPublished)"
+                  )
                   .params({
                     type: "post",
                     state: "drafts"
                   })
               ),
             S.listItem()
-              .title("Unpublished")
-              .icon(FiCheck)
+              .title("Unpublished (Previously Published)")
+              .icon(FiInbox)
               .schemaType("post")
               .child(
                 S.documentTypeList("post")
-                  .title("Unpublished")
-                  .filter("_type == $type && _id in path('drafts.**') && defined(publishedAt)")
+                  .title("Unpublished (Previously Published)")
+                  .filter(
+                    "_type == $type && (_id in path('drafts.**')) && defined(hasBeenPublished) && !hasBeenPublished"
+                  )
                   .params({
                     type: "post",
-                    state: "awaiting"
+                    state: "drafts"
                   })
               ),
             S.listItem()
